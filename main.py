@@ -2,7 +2,15 @@ import psutil as ps
 import time
 from run_templates import templates
 from gtts import gTTS
-import pygame 
+import pygame
+from eleven_labs import eleven_labs_tts
+from dotenv import load_dotenv
+import os
+from elevenlabs.client import ElevenLabs
+from elevenlabs import play
+
+load_dotenv()
+api_key = os.getenv('ELEVEN_LABS_API_KEY')
 
 def all_proc():
   for proc in ps.process_iter(['pid', 'name', 'username']):
@@ -46,18 +54,12 @@ def monitor_new_process(callback, clear_callback):
       
 def new_process_handler(name):
   print(f'New Process: {name}')
-  task_templates(name, text_to_speech)
+  task_templates(name)
   
-    
-def task_templates(proc_name, callback):   
+def task_templates(proc_name):   
   if proc_name in templates:
     for message in templates[proc_name]:
-      callback(message)
-  
-def text_to_speech(message):
-  language = 'en'
-  my_obj = gTTS(text=message, lang=language, slow=False)
-  my_obj.save('voice.mp3')
+      eleven_labs_tts(message)
   
   # change someday
   pygame.mixer.init()
@@ -82,8 +84,6 @@ def proc_names_clear_handler(names):
     else:
       print('No names to clear')
         
-    
-
-
+        
 all_proc()
 monitor_new_process(new_process_handler, proc_names_clear_handler)
