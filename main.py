@@ -1,5 +1,6 @@
 import psutil as ps 
 import time
+from run_templates import templates
 
 def all_proc():
   for proc in ps.process_iter(['pid', 'name', 'username']):
@@ -9,7 +10,7 @@ def all_proc():
       print('Oops..')
       
 # new process monitoring
-def monitor_new_process():
+def monitor_new_process(callback):
   prev_proc = set(p.info['pid'] for p in ps.process_iter(['pid']))
   processed_names = set()
     
@@ -24,11 +25,21 @@ def monitor_new_process():
       proc_name = process.name()
       
       if proc_name not in processed_names:
-        print(f'New Process: {proc_name}')
         processed_names.add(proc_name)
+        callback(proc_name)
         
     prev_proc = curr_proc
+    
+def new_process_handler(name):
+  print(f'New Process: {name}')
+  task_templates(name)
+    
+def task_templates(proc_name):   
+  if proc_name in templates:
+    for message in templates[proc_name]:
+      print(message)
+  
 
 
 all_proc()
-monitor_new_process()
+monitor_new_process(new_process_handler)
