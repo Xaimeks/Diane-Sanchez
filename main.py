@@ -1,6 +1,8 @@
 import psutil as ps 
 import time
 from run_templates import templates
+from gtts import gTTS
+import os
 
 def all_proc():
   for proc in ps.process_iter(['pid', 'name', 'username']):
@@ -32,13 +34,18 @@ def monitor_new_process(callback):
     
 def new_process_handler(name):
   print(f'New Process: {name}')
-  task_templates(name)
+  task_templates(name, text_to_speech)
     
-def task_templates(proc_name):   
+def task_templates(proc_name, callback):   
   if proc_name in templates:
     for message in templates[proc_name]:
-      print(message)
+      callback(message)
   
+def text_to_speech(message):
+  language = 'en'
+  my_obj = gTTS(text=message, lang=language, slow=False)
+  my_obj.save('voice.mp3')
+  os.system('start voice.mp3')
 
 
 all_proc()
