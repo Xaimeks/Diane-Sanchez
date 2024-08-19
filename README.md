@@ -2,7 +2,7 @@
 ## Whats is it? 
 Its voice in your ears that will intermittently voice your actions to you and tell you how bad you are.
 ## Function
-A little later.
+When you launch any application on your computer, Diana will tell you different suggestions, sometimes this is not very pleasant.
 ## Requiremenets
 For correct operation, install all the required libraries, this can be done like this ```pip install requirements``` It should also be useful to you [ffmpeg](https://ffmpeg.org/download.html).
 ## ffmpeg - Window
