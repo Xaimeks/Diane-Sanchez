@@ -72,10 +72,6 @@ def task_templates(proc_name):
         
       pygame.mixer.music.stop()
       pygame.mixer.quit()
-      try:
-        os.remove(voice.mp3)
-      except FileNotFoundError as e:
-        print(f'Error File Not Found: {e}')
 
 def proc_names_clear_handler(names):
     print(f'Names before check: {names}')
