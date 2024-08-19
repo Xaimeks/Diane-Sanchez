@@ -36,17 +36,18 @@ def monitor_new_process(callback, clear_callback):
           proc_name = process.name()
             
           if proc_name not in processed_names:
+            time.sleep(3)
             processed_names.add(proc_name)
             callback(proc_name)
               
         except (ps.NoSuchProcess, ps.AccessDenied, ps.ZombieProcess) as e:
           print(f'Error {element}: {e}')      
           
-      if time.time() % 1 < 1:
+      if time.time() % 1 < 5:
         clear_callback(processed_names)
               
               
-        prev_proc = curr_proc
+      prev_proc = curr_proc
         
         
     except Exception as e:
@@ -61,17 +62,20 @@ def task_templates(proc_name):
     for message in templates[proc_name]:
       eleven_labs_tts(message)
   
-  # change someday
-  pygame.mixer.init()
-  pygame.mixer.music.load('voice.mp3')
-  pygame.mixer.music.play()
-  
-  while pygame.mixer.music.get_busy():
-    pygame.time.Clock().tick(10)
-    
-  pygame.mixer.music.stop()
-  pygame.mixer.quit()
-  # os.remove(voice.mp3)
+      # change someday
+      pygame.mixer.init()
+      pygame.mixer.music.load('voice.mp3')
+      pygame.mixer.music.play()
+      
+      while pygame.mixer.music.get_busy():
+        pygame.time.Clock().tick(10)
+        
+      pygame.mixer.music.stop()
+      pygame.mixer.quit()
+      try:
+        os.remove(voice.mp3)
+      except FileNotFoundError as e:
+        print(f'Error File Not Found: {e}')
 
 def proc_names_clear_handler(names):
     print(f'Names before check: {names}')
