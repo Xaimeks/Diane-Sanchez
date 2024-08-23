@@ -1,7 +1,6 @@
 import psutil as ps 
 import time
 from run_templates import templates
-from gtts import gTTS
 import pygame
 from eleven_labs import eleven_labs_tts
 from dotenv import load_dotenv
