@@ -1,4 +1,4 @@
 templates = {
-  'chrome.exe': ['Are you opening your browser again? Isnt it time to start living?', 'Opening Chrome again? Maybe its time to face reality', 'Hello honey, why do you need a browser?'], 
-  'Notion.exe': ['What a pity that you have nothing to write about', 'Hi honey, What will you write today? About your sad life?']
+  'chrome.exe': ['Ты снова открываешь браузер? Не пора ли начать жить?', 'Открываешь браузер опять? Не пора ли выйти в свет?', 'Привет дорогой, что планируешь делать?'], 
+  'Telegram.exe': ['С кем будешь общаться?']
 }

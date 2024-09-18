@@ -7,17 +7,11 @@ from dotenv import load_dotenv
 import os
 from elevenlabs.client import ElevenLabs
 from elevenlabs import play
+import random
 
 load_dotenv()
 api_key = os.getenv('ELEVEN_LABS_API_KEY')
 
-def all_proc():
-  for proc in ps.process_iter(['pid', 'name', 'username']):
-    try:
-      print(f'PID: {proc.info['pid']}, Name: {proc.info['name']}, User: {proc.info['username']}')
-    except (ps.NoSuchProcess, ps.AccessDenied, ps.ZombieProcess):
-      print('Oops..')
-      
 # new process monitoring
 def monitor_new_process(callback, clear_callback):
   prev_proc = set(p.info['pid'] for p in ps.process_iter(['pid']))
@@ -38,16 +32,14 @@ def monitor_new_process(callback, clear_callback):
             time.sleep(3)
             processed_names.add(proc_name)
             callback(proc_name)
-              
+
         except (ps.NoSuchProcess, ps.AccessDenied, ps.ZombieProcess) as e:
           print(f'Error {element}: {e}')      
           
       if time.time() % 1 < 5:
         clear_callback(processed_names)
               
-              
       prev_proc = curr_proc
-        
         
     except Exception as e:
       print(f"Error: {e}")
@@ -58,19 +50,19 @@ def new_process_handler(name):
   
 def task_templates(proc_name):   
   if proc_name in templates:
-    for message in templates[proc_name]:
-      eleven_labs_tts(message)
+    message = random.choice(templates[proc_name])
+    eleven_labs_tts(message)
   
-      # change someday
-      pygame.mixer.init()
-      pygame.mixer.music.load('voice.mp3')
-      pygame.mixer.music.play()
+    # change someday
+    pygame.mixer.init()
+    pygame.mixer.music.load('voice.mp3')
+    pygame.mixer.music.play()
       
-      while pygame.mixer.music.get_busy():
-        pygame.time.Clock().tick(10)
+    while pygame.mixer.music.get_busy():
+      pygame.time.Clock().tick(10)
         
-      pygame.mixer.music.stop()
-      pygame.mixer.quit()
+    pygame.mixer.music.stop()
+    pygame.mixer.quit()
 
 def proc_names_clear_handler(names):
     print(f'Names before check: {names}')
@@ -84,5 +76,4 @@ def proc_names_clear_handler(names):
       print('No names to clear')
         
         
-all_proc()
 monitor_new_process(new_process_handler, proc_names_clear_handler)

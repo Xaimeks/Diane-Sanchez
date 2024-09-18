@@ -1,4 +1,4 @@
 /venv/
-.test.py
 *.mp3
 .env
+.venv
